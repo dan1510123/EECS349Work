@@ -1,0 +1,18 @@
+Writeup for HW 3:
+	
+Q1:
+Creating some local variables and doing some arithmetic operation and bit manipulation on them.
+Then printed the resulting value.
+There are some slight changes, but those are likely due to optimizations in using eax over ecx.
+
+Q2:
+Creates an array of 8 values. Initializes an index (I called x) and a maxValue int, both to 0.
+Loops through the array using a while loop condition on the index < 8 (length of array).
+	During loop, if value at x is greater than current maxValue, then set maxValue to the value at x
+By the end of the program, maxValue will have the maximum element in the array.
+Prints the max value to console.
+
+Q3:
+
+
+
