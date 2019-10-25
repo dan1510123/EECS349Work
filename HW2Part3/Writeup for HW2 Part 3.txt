@@ -1,5 +1,7 @@
 Writeup for HW 3:
-	
+PLEASE NOTE: Each folder has the code, executable, and analysis of the Question on it.
+This file is just for a brief overview of what I found it to do on a very high level.
+
 Q1:
 Creating some local variables and doing some arithmetic operation and bit manipulation on them.
 Then printed the resulting value.
@@ -25,5 +27,15 @@ While a < 1000, we do some arithmetic operations to create three new integer var
 Return 0;
 
 Q4:
+main method:
+initializes variables to values 7, 100, and 0, along with an array of size 100
+While(z < y), it sets arr[z] to z + 1, then increments z
+Then it prints out the output of running proc1(arr, 100, 7)
+
+proc1 method:
+Initializes three variables and declares a fourth variable.
+Runs a bunch of nested for loops on the variables, interacting with the 4 variables that were created
+and the 3 arguments that were passed.
+Returns the value of the second initialized variable at the end.
 
 
