@@ -13,6 +13,17 @@ By the end of the program, maxValue will have the maximum element in the array.
 Prints the max value to console.
 
 Q3:
+Creates an int (in my case, a) set to 100.
+While a < 1000, we do some arithmetic operations to create three new integer variables in memory (my b, c, d):
+	int b = a / 100;
+	int c = ((-100 * b) + a) / 10;
+	int d = a - 2*(a / 10 * 5);
 
+	If a is equal to b^3 + c^3 + d^3, then we print the value of a at that time:
+		The condition is true when a = 153, 370, 371, 407
+	Increment a at the end.
+Return 0;
+
+Q4:
 
 
