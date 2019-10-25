@@ -1,6 +1,7 @@
 Writeup for HW 3:
 PLEASE NOTE: Each folder has the code, executable, and analysis of the Question on it.
 This file is just for a brief overview of what I found it to do on a very high level.
+Analyses are in PDF form, but also txt form (pdf more readable)
 
 Q1:
 Creating some local variables and doing some arithmetic operation and bit manipulation on them.

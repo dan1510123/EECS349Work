@@ -1,0 +1,32 @@
+HW3
+
+Q1:
+push    ebp 				
+mov     ebp, esp 
+and     esp, 0FFFFFFF0h 
+sub     esp, 20h 
+call    ___main 
+mov     dword ptr [esp+1Ch], 3 	// int x = 3
+mov     dword ptr [esp+18h], 5 	// int y = 5
+mov     dword ptr [esp+14h], 0 	// int z = 0
+mov     eax, [esp+1Ch] 		// eax = x
+imul    eax, [esp+18h] 			// eax = x * y
+mov     edx, eax 			// edx = x * y
+mov     eax, [esp+1Ch] 		// eax = x
+mov     ecx, eax 			// ecx = x
+shr     ecx, 1Fh 			// ecx = x / 2^31
+add     eax, ecx 			// eax = x + x / 2^31
+sar     eax, 1 				// eax = (x + x / 2^31)>>1
+sub     edx, eax 			// edx = x * y - (x + x / 2^31)>>1
+mov     eax, edx 			// eax =  x * y - (x + x / 2^31)>>1
+mov     [esp+14h], eax 		// int z =  x * y - (x + x / 2^31)>>1
+mov     eax, [esp+14h] 		// eax = z
+mov     [esp+4], eax 			// temp mem for printf
+mov     dword ptr [esp], offset aD ; "%d" 
+call    _printf 				// print value of z
+mov     eax, 0 				
+leave 					
+retn _main				// return 0
+endp 
+
+

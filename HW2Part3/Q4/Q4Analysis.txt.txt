@@ -1,0 +1,127 @@
+Q4:
+MAIN
+push    ebp
+mov     ebp, esp
+and     esp, 0FFFFFFF0h
+sub     esp, 1B0h
+call    ___main
+mov     dword ptr [esp+1A8h], 7		// set int x = 7
+mov     dword ptr [esp+1A4h], 64h		// set int y = 100
+mov     dword ptr [esp+1ACh], 0		// set int z = 0
+jmp     short loc_401619			// jump to loc_401619
+
+loc_4015FC:
+mov     eax, [esp+1ACh]			// eax = z
+lea     edx, [eax+1]				// edx = z + 1
+mov     eax, [esp+1ACh]			// eax = z
+mov     [esp+eax*4+14h], edx			// [esp+z*4+14h] = z+1 => arr[z] = z + 1;
+add     dword ptr [esp+1ACh], 1		// increment z => z++
+// Note_start
+We set the value of some array (I will initialize it in the beginning) at index of z (since each 4 bits away so they are elements in array next to each other) equal to z + 1.
+The array will be called arr (initialized with x, y, z) and it will start at a size of 10 since z <= y so z will reach max value of 100 - 1 = 99;
+// Note_end
+
+loc_401619:
+mov     eax, [esp+1ACh]			// eax = z
+cmp     eax, [esp+1A4h]			// cmp z < y (essentially while(z < y))
+jl      short loc_4015FC			// jump to loc_4015FC
+mov     eax, [esp+1A8h]			// eax = x
+mov     [esp+8], eax    ; int			// int a = x
+mov     eax, [esp+1A4h]			// eax = y
+mov     [esp+4], eax    ; int			// int b = y
+lea     eax, [esp+1B0h+var_19C]		// eax = new pointer address
+mov     [esp], eax      ; int *			// int * c = eax pointer
+call    __Z5proc1Piii   ; proc1(int *,int,int)	// call proc(c, b, a)
+mov     [esp+4], eax				// temp mem for printf
+mov     dword ptr [esp], offset aD ; "%d\n"	
+call    _printf					// print value of value at pointer address
+mov     eax, 0	
+leave
+retn						// return 0
+_main endp
+PROC method signature proc1(int * x, int y, int z)
+push    ebp				
+mov     ebp, esp			
+sub     esp, 10h			
+mov     [ebp+var_C], 0		// int a = 0
+mov     [ebp+var_10], 0		// int b = 0
+mov     [ebp+var_4], 0			// int c = 0
+jmp     loc_4015B7			// jump loc_4015B7
+//Note_start
+Initialize int d
+//Note_end
+
+loc_401520:
+mov     [ebp+var_8], 1			// d = 1 (let d be declared earlier)
+jmp     short loc_40155E		// jump loc_40155E
+
+loc_401529:
+jmp     short loc_401538		// jump loc_401538
+
+loc_40152B:
+mov     eax, [ebp+var_C]		// eax = a
+add     eax, 1				// eax = a + 1
+cdq					// setup for idiv
+idiv    [ebp+arg_4]			// edx = (a + 1)/ y
+mov     [ebp+var_C], edx		// a = (a + 1) / y
+
+loc_401538:
+mov     eax, [ebp+var_C]		// eax = a
+lea     edx, ds:0[eax*4]		// setup for next move
+mov     eax, [ebp+arg_0]		// eax = x
+add     eax, edx			// eax = x[a] 
+mov     eax, [eax]			// eax = x[a]
+test    eax, eax				// while(x[a] == 0)
+jz      short loc_40152B		// jump loc_40152B
+
+add     [ebp+var_8], 1			// Increment d => d++
+mov     eax, [ebp+var_C]		// eax = a
+add     eax, 1				// Increment a => a++
+cdq					// setup for idiv
+idiv    [ebp+arg_4]			// edx = a / y
+mov     [ebp+var_C], edx		// a = a / y
+
+loc_40155E:
+mov     eax, [ebp+var_8]		// eax = d
+cmp     eax, [ebp+arg_8]		// while(d < z)
+jl      short loc_401529			// jump loc_401529
+
+jmp     short loc_401575		// jump loc_401575
+
+loc_401568:
+mov     eax, [ebp+var_C]		// eax = a
+add     eax, 1				// eax = a + 1
+Cdq					// setup
+idiv    [ebp+arg_4]			// edx = (a + 1) / y
+mov     [ebp+var_C], edx		// a = (a + 1) / y
+
+loc_401575:
+mov     eax, [ebp+var_C]		// eax = a
+lea     edx, ds:0[eax*4]		// setup for next
+mov     eax, [ebp+arg_0]		// eax = x
+add     eax, edx			// eax = x[a]
+mov     eax, [eax]			// eax = x[a]
+test    eax, eax				// while(x[a] == 0)
+jz      short loc_401568		// jump loc_401568
+
+mov     eax, [ebp+var_C]		// eax = a
+lea     edx, ds:0[eax*4]		// setup
+mov     eax, [ebp+arg_0]		// eax = x
+add     eax, edx			// eax = x[a]
+mov     eax, [eax]			// eax = x[a]
+mov     [ebp+var_10], eax		// b = x[a]
+mov     eax, [ebp+var_C]		// eax = a
+lea     edx, ds:0[eax*4]		// setup
+mov     eax, [ebp+arg_0]		// eax = x
+add     eax, edx			// eax = x[a]
+mov     dword ptr [eax], 0		// x[a] = 0
+add     [ebp+var_4], 1			// Increment c => c++
+
+loc_4015B7:
+mov     eax, [ebp+var_4]		// eax = c
+cmp     eax, [ebp+arg_4]		// while(c < y)
+jl      loc_401520			// jump to loc_401520
+mov     eax, [ebp+var_10]
+leave
+Retn					// return b
+__Z5proc1Piii endp
