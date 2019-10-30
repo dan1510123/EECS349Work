@@ -1,0 +1,12 @@
+CRACKME Analysis HW 3 Part 1 Q2
+
+In OllyDB, while debugging step by step using F8 and F9, I noticed that there are two XOR
+calls in the assembly, XORing EDI to 5678 and EDI to 1234.
+I then turned my input username into integer form (using the ASCII values) and XORed it by 5678 and 1234.
+This did not work at first, but when I looked a bit closer at the OllyDb, I noticed a bunch of jumps comparing
+the letter and then turning it to uppercase. So when I changed the ascii to only the uppercase values of
+all of the letters in my username and then XORed it against 5678 and 1234, I got a working Serial number
+
+For Me:
+Username = "Daniel"
+Serial = "17889" <= sum of ASCII of "DANIEL" (0x01AD) XOR 0x5678 XOR 0x1234 = 0x45E1 = 17889
